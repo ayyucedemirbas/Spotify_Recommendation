@@ -34,7 +34,8 @@ except ImportError as _err:
 
 CLIENT_ID     = os.getenv("SPOTIPY_CLIENT_ID",     "your_cli_id")
 CLIENT_SECRET = os.getenv("SPOTIPY_CLIENT_SECRET", "your_cli_sec")
-REDIRECT_URI = "http://127.0.0.1:9999/callback"
+REDIRECT_URI = "http://127.0.0.1:9999/callback" #change it if necessary, to empty the port, use: lsof -ti :9999 | xargs kill -9
+SCOPE = "user-library-read"
 SCOPE         = "user-library-read"
 
 WORK_DIR    = Path("spotify_explorer")
@@ -181,7 +182,7 @@ def extract_features(path: Path) -> np.ndarray | None:
         ]).astype(np.float32)
 
     except Exception as exc:
-        print(f"     Feature error — {path.name}: {exc}")
+        print(f"   Feature error — {path.name}: {exc}")
         return None
 
 def build_feature_matrix(
@@ -273,7 +274,7 @@ def recommend_songs(
 
     print("   seeds (one per cluster):")
     for s in seeds[:5]:
-        print(f"       • {s['name'][:40]:<40}  —  {s['artist']}")
+        print(f"       {s['name'][:40]:<40}  —  {s['artist']}")
 
     candidates: list[dict] = []
     seen_artist_names: set[str] = set()
